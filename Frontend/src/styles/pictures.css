@@ -1,0 +1,14 @@
+.layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 10px));
+}
+
+.picture {
+    overflow: hidden;
+    object-fit: cover;
+}
+
+.picture img {
+    width: 100%;
+    margin: 10px;
+}

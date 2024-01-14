@@ -1,0 +1,10 @@
+POST http://localhost:3003/api/pictures
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImVlbGxlbiIsImlkIjoiNjVhM2E5MWM4MmM5NzJkMGMwZjJlMjM5IiwiaWF0IjoxNzA1MjMyMzc2fQ.G7naBtzetVGkSzFepRfgYXzjdb4I4sMVAtxYnTgJ9JE
+
+
+{
+    "url": "https://images.unsplash.com/photo-1513682121497-80211f36a7d3?q=80&w=988&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "title": "People",
+    "description": ""
+}
