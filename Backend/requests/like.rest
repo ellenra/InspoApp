@@ -1,0 +1,1 @@
+POST http://localhost:3003/api/pictures/likePicture/65a3f755cf82659684a10b8c/65a5410234ba5f6931a6c248

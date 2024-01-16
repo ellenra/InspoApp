@@ -12,10 +12,17 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    email: String,
     pictures: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Blog'
+            ref: 'Picture'
+        }
+    ],
+    likedPictures: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Picture'
         }
     ]
 })

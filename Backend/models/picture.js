@@ -8,7 +8,13 @@ const pictureSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
-    }
+    },
+    likedUsers : [
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        }
+    ]
 })
 
 pictureSchema.set('toJSON', {

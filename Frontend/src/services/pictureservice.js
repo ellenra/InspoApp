@@ -21,4 +21,14 @@ const create = async newObject => {
     return response.data
 }
 
-export default { getAll, create, setToken }
+const getById = async (pictureId) => {
+    const response = await axios.get(`${baseUrl}/${pictureId}`)
+    return response.data
+}
+
+const like = async (userId, pictureId) => {
+    const response = await axios.post(`${baseUrl}/likePicture/${userId}/${pictureId}`)
+    return response.data
+}
+
+export default { getAll, create, setToken, getById, like }

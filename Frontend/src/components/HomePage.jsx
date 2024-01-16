@@ -1,11 +1,20 @@
 import { useState, useEffect } from "react"
 import Login from "./LoginForm"
-import PictureForm from "./PictureForm"
 import pictureService from '../services/pictureservice'
 import '../styles/pictures.css'
 
 const Home = () => {
     const [pictures, setPictures] = useState([])
+    const [user, setUser] = useState(null)
+
+    useEffect(() => {
+        const loggedUserJSON = window.localStorage.getItem('loggedUser')
+        if (loggedUserJSON) {
+          const user = JSON.parse(loggedUserJSON)
+          setUser(user)
+          pictureService.setToken(user.token)
+        }
+    }, [])
 
     useEffect(() => {
         pictureService.getAll().then(pictures => 
@@ -13,26 +22,28 @@ const Home = () => {
         )
     }, [])
 
-    const handleNewPicture = async ({ url, title, description }) => {
+    const handleLike = async (userId, pictureId) => {
         try {
-            const picToAdd = await pictureService.create({ url, title, description })
-            setPictures(pictures.concat(picToAdd))
-            console.log('pic added')
-        } catch {
-            console.log('could not add pic')
+            await pictureService.like(userId, pictureId)            
+        } catch (error) {
+            console.error('Error, could not like picture:', error)
         }
     }
 
     return (
         <div>
-            <Login />
+            <Login onLogin={(loggedInUser) => setUser(loggedInUser)}/>
+            <br></br>
             <div>
-                <h2>InspoApp</h2>
-                <PictureForm handleNewPicture={handleNewPicture} />
                 <div className="layout">
                     {pictures.map((picture) => (
                         <div key={picture.id} className="picture">
                             <img src={picture.url} alt={picture.description} />
+                            {user && (
+                                <button
+                                className="like-button"
+                                onClick={() => handleLike(user.id, picture.id)}></button>
+                            )}                        
                         </div>
                     ))}
                 </div>

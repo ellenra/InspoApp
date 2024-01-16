@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import loginService from '../services/loginservice'
 import '../styles/index.css'
 import '../styles/login.css'
 import pictureService from '../services/pictureservice'
+import PictureForm from './PictureForm'
 
-
-const Login = () => {
-    const [user, setUser] = useState(null)
+const Login = ({ onLogin }) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [user, setUser] = useState(null)
+    const navigate = useNavigate()
 
     useEffect(() => {
       const loggedUserJSON = window.localStorage.getItem('loggedUser')
@@ -30,10 +32,37 @@ const Login = () => {
             setUser(user)
             setUsername('')
             setPassword('')
+            if (onLogin) {
+              onLogin(user)
+            }
         } catch (exception) {
             console.log('error in login')
         }
     }
+
+    const handleLogout = () => {
+      window.localStorage.removeItem('loggedUser')
+      pictureService.setToken(null)
+      setUser(null)
+
+    }
+
+    const handleNewPicture = async ({ url, title, description }) => {
+      try {
+          const picToAdd = await pictureService.create({ url, title, description })
+          setPictures(pictures.concat(picToAdd))
+          console.log('pic added')
+      } catch {
+          console.log('could not add pic')
+      }
+  }
+
+
+  const goToProfile = () => {
+    navigate(`/users/${user.id},`, { state: { user } })
+  }
+
+
     if (user === null) {
       return (
           <div className='body'>
@@ -63,11 +92,25 @@ const Login = () => {
               />
             </div>
             <button className="login_button" id="login-button" type="submit">Login</button>
+          <div>
+            Don't have an account?
+            <br ></br>
+            <Link to="/register">Register here</Link>
+            <br></br>
+          </div>
           </form>
         </div>
         </div>
       )
     }
+
+    return (
+      <div>
+        <button id="logout-button" onClick={handleLogout}>Log out</button>
+        <button id="profile-button" onClick={goToProfile}>Profile page</button>
+        <PictureForm handleNewPicture={handleNewPicture} />
+      </div>
+    )
 }
 
 export default Login
