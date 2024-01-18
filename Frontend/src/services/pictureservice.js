@@ -32,8 +32,6 @@ const deleteById = async (pictureId) => {
         headers: { Authorization: token }
     }
     const response = await axios.delete(`${baseUrl}/${pictureId}`, config)
-    console.log('made it to services')
-
     return response.data
 }
 

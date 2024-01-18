@@ -90,5 +90,21 @@ usersRouter.get('/:id/likes', async (request, response) => {
     }
 })
 
+usersRouter.delete('/:id/likes', async (request, response) => {
+    const userId = request.params.id
+    const pictureId = request.body.id
+    try {
+        const user = await User.findById(userId)
+        user.likedPictures.pull(pictureId)
+
+        await user.save()
+        const updatedUser = await User.findById(userId)
+        const updatedLikes = updatedUser ? updatedUser.likedPictures : []
+        return response.json(updatedLikes)
+    } catch (error) {
+        response.status(500).json({ error: 'Internal server error' })
+    }
+})
+
 
 module.exports = usersRouter

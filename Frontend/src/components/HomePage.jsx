@@ -42,7 +42,6 @@ const Home = () => {
     const handleLike = async (userId, pictureId) => {
         try {
             await userService.likePicture(userId, pictureId)
-
         } catch (error) {
             console.error('Error, could not like picture:', error)
         }

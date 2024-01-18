@@ -35,22 +35,31 @@ const Profile = () => {
       }
   
       fetchLikedPictures()
-    }, [])
+    }, [user.likedPictures])
 
 
     const handleDelete = async (pictureId) => {
       if(window.confirm('Delete picture?')) {
         try {
           await pictureService.deleteById(pictureId)
-          console.log('made it here')
           setPictures((prevPictures) => prevPictures.filter((p) => p.id !== pictureId))
-          console.log('made it further')
         } catch (exception) {
           console.error('error:', exception)
         }
       }
     }
-  
+
+    const handleDeleteLike = async (userId, pictureId) => {
+      if(window.confirm('Delete from profile?')) {
+        try {
+          await userService.deleteLike(userId, pictureId)
+          setLikedPictures((prevPictures) => prevPictures.filter((p) => p.id !== pictureId))
+        } catch (exception) {
+          console.error('error:', exception)
+        }
+      }
+    }
+
     return (
         <div>
             <h2>{user.username}</h2>
@@ -68,6 +77,7 @@ const Profile = () => {
                     {likedPictures.map((picture) => (
                         <div key={picture.id} className="picture">
                             <img src={picture.url} alt={picture.description} />
+                            <button className="delete-button" onClick={() => handleDeleteLike(user.id, picture.id)}>delete</button>
                         </div>
                     ))}
             </div>

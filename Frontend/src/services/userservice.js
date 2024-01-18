@@ -53,5 +53,19 @@ const getLikedPictures = async (userId) => {
   }
 }
 
+const deleteLike = async (userId, pictureId) => {
+  try {
+    const response = await axios.delete(`${baseUrl}/${userId}/likes`, {
+      data: { id: pictureId },
+      headers: {
+          'Content-Type': 'application/json',
+      },
+  })
+    return response.data
+  } catch (error) {
+    console.error('Error deleting like:', error.message)
+    throw error
+  }
+}
 
-export default { register, getAll, getUser, getUserPictures, likePicture, getLikedPictures }
+export default { register, getAll, getUser, getUserPictures, likePicture, getLikedPictures, deleteLike }

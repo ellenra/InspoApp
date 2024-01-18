@@ -1,6 +1,6 @@
 POST http://localhost:3003/api/pictures
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im9saXZpYTwzIiwiaWQiOiI2NWE2YWVmNjM2YTE0MTlmY2M3MmIxYzAiLCJpYXQiOjE3MDU1NzE1MzcsImV4cCI6MTcwNTU3NTEzN30.-7lzS4YQc27_6eqiqlW3oKIbcfI13FTd-QooKT_6jnA
+Authorization: Bearer 
 
 
 {

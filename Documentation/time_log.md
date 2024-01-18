@@ -15,9 +15,8 @@
 | 17.1. | 4    | Started working on picture deletion feature.  |
 |       |      | Debugged issues with liking and deletion features. |
 |       |      | Improved design. |
-| 17.1. | 4.5  | Resolved issues with liking and deletion. |
+| 18.1. | 5.5  | Resolved issues with liking and deletion. |
+|       |      | User can delete liked picture from profile. |
 
 
-
-
-| yht   | 23,5 | |
+| yht   |      |

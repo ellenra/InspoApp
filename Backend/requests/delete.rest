@@ -1,0 +1,2 @@
+DELETE http://localhost:3003/api/pictures/65a817e9e09de2cc77c58ec9
+Authorization: Bearer 
