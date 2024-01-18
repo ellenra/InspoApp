@@ -1,5 +1,5 @@
 import { useState } from "react"
-import pictureService from '../services/pictureservice'
+import '../styles/index.css'
 
 const PictureForm = ({ handleNewPicture }) => {
     const [url, setUrl] = useState('')
@@ -48,7 +48,7 @@ const PictureForm = ({ handleNewPicture }) => {
                 placeholder="description"
               />
             </div>
-            <button id='newpicture-button' type="submit">Add</button>
+            <button className="button" id='newpicture-button' type="submit">Add</button>
           </form>
         </div>
       )

@@ -1,5 +1,5 @@
 import { useState } from "react"
-import registerService from '../services/registerservice'
+import userService from '../services/userservice'
 
 const Register = () => {
     const [user, setUser] = useState(null)
@@ -11,7 +11,7 @@ const Register = () => {
         event.preventDefault()
         console.log('registration in process')
         try {
-            await registerService.register({
+            await userService.register({
                 username, password, email
             })
             setUsername('')
@@ -34,6 +34,7 @@ const Register = () => {
                 name="username"
                 value={username}
                 onChange={(event) => setUsername(event.target.value)}
+                placeholder="username"
               />
             </div>
             <div>
@@ -44,6 +45,7 @@ const Register = () => {
                 name="password"
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
+                placeholder="password"
               />
             </div>
             <div>
@@ -54,6 +56,7 @@ const Register = () => {
                 name="email"
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
+                placeholder="email"
               />
             </div>
             <button id="register-button" type="submit">Register</button>

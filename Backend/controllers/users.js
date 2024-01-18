@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt')
 const usersRouter = require('express').Router()
 const User = require('../models/user')
+const Picture = require('../models/picture')
 
 usersRouter.get('/', async (request, response) => {
     const users = await User
@@ -40,5 +41,54 @@ usersRouter.get('/:id', async (request, response) => {
         response.status(500).json({ error: 'Internal server error' })
     }
 })
+
+usersRouter.get('/:id/pictures', async (request, response) => {
+    try {
+        const userId = request.params.id
+        const user = await User.findById(userId).populate('pictures')
+        if (!user) {
+            return response.status(404).json({ error: 'User not found' })
+        }
+        const pictures = user.pictures.map((pic => ({ 
+            id: pic._id.toString(),
+            url: pic.url,
+            title: pic.title,
+            description: pic.description
+        })))
+        return response.json({ pictures })
+    } catch (error) {
+        console.log('error in fetching user', error)
+        response.status(500).json({ error: 'Internal server error' })
+    }
+})
+
+usersRouter.post('/:id/likes', async (request, response) => {
+    try {
+        const userId = request.params.id
+        const pictureId = request.body.pictureId
+        const user = await User.findById(userId)
+        
+        if (!user.likedPictures.includes(pictureId)) {
+            user.likedPictures.push(pictureId)
+            await user.save()
+        }
+    } catch (error) {
+        response.status(500).json({ error: 'Internal server error' })
+    }
+})
+
+usersRouter.get('/:id/likes', async (request, response) => {
+    const userId = request.params.id
+    try {
+        const user = await User.findById(userId).populate('likedPictures', { url: 1, title: 1, description: 1 })
+        if (!user) {
+          return res.status(404).json({ error: 'User not found' })
+        }
+        return response.json(user.likedPictures)
+    } catch (error) {
+        response.status(500).json({ error: 'Internal server error' })
+    }
+})
+
 
 module.exports = usersRouter

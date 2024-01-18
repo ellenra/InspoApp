@@ -1,16 +1,14 @@
 import { useState, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import loginService from '../services/loginservice'
 import '../styles/index.css'
 import '../styles/login.css'
 import pictureService from '../services/pictureservice'
-import PictureForm from './PictureForm'
 
 const Login = ({ onLogin }) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [user, setUser] = useState(null)
-    const navigate = useNavigate()
 
     useEffect(() => {
       const loggedUserJSON = window.localStorage.getItem('loggedUser')
@@ -40,34 +38,12 @@ const Login = ({ onLogin }) => {
         }
     }
 
-    const handleLogout = () => {
-      window.localStorage.removeItem('loggedUser')
-      pictureService.setToken(null)
-      setUser(null)
-
-    }
-
-    const handleNewPicture = async ({ url, title, description }) => {
-      try {
-          const picToAdd = await pictureService.create({ url, title, description })
-          setPictures(pictures.concat(picToAdd))
-          console.log('pic added')
-      } catch {
-          console.log('could not add pic')
-      }
-  }
-
-
-  const goToProfile = () => {
-    navigate(`/users/${user.id},`, { state: { user } })
-  }
-
 
     if (user === null) {
       return (
-          <div className='body'>
-          <div className="login">
-          <h1>InspoApp</h1>
+          <div className="login-form">
+          <div>
+            <p>Log in to upload and save pictures!</p>
           <form onSubmit={handleLogin}>
             <div>
             Username:
@@ -91,7 +67,7 @@ const Login = ({ onLogin }) => {
                 onChange={(event) => setPassword(event.target.value)}
               />
             </div>
-            <button className="login_button" id="login-button" type="submit">Login</button>
+            <button className="button" id="login-button" type="submit">Login</button>
           <div>
             Don't have an account?
             <br ></br>
@@ -105,11 +81,7 @@ const Login = ({ onLogin }) => {
     }
 
     return (
-      <div>
-        <button id="logout-button" onClick={handleLogout}>Log out</button>
-        <button id="profile-button" onClick={goToProfile}>Profile page</button>
-        <PictureForm handleNewPicture={handleNewPicture} />
-      </div>
+      null
     )
 }
 

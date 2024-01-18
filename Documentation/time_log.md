@@ -12,4 +12,12 @@
 | 16.1. | 6    | User has own profile page. |
 |       |      | User can like pictures. |
 |       |      | Users' liked pictures and own uploads are displayed on the profile page. |
-| yht   | 28   | |
+| 17.1. | 4    | Started working on picture deletion feature.  |
+|       |      | Debugged issues with liking and deletion features. |
+|       |      | Improved design. |
+| 17.1. | 4.5  | Resolved issues with liking and deletion. |
+
+
+
+
+| yht   | 23,5 | |

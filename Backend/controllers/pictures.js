@@ -14,7 +14,7 @@ const getTokenFrom = request => {
 
 picturesRouter.get('/', async (request, response) => {
     const pictures = await Picture
-    .find({}).populate('user')
+    .find({}).populate('user', { name: 1, username: 1})
     response.json(pictures)
 })
 
@@ -57,24 +57,18 @@ picturesRouter.get('/:id', async (request, response) => {
     }
 })
 
-picturesRouter.post('/likePicture/:userId/:pictureId', async (request, response) => {
-    try {
-      const userId = request.params.userId
-      const pictureId = request.params.pictureId
-  
-      const user = await User.findById(userId)
-      const picture = await Picture.findById(pictureId)
-  
-      user.likedPictures.push(picture)
-      await user.save()
-      picture.likedUsers.push(user)
-      await picture.save()
-    
-      response.status(200).json({ message: 'Picture liked successfully' })
-    } catch (error) {
-      console.error(error);
-      response.status(500).json({ error: 'Internal server error' })
+picturesRouter.delete('/:id', async (request, response) => {
+    const pictureIdToDelete = request.params.id
+    const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
+    if (!decodedToken.id) {
+        return response.status(401).json({ error: 'token invalid '})
     }
-  })
+    await User.updateMany(
+        { likedPictures: pictureIdToDelete},
+        { $pull: { likedPictures: pictureIdToDelete }}
+    )
+    await Picture.findByIdAndDelete(pictureIdToDelete)
+    response.status(204).end()
+})
 
 module.exports = picturesRouter

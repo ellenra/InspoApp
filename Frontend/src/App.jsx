@@ -6,14 +6,14 @@ import Home from './components/HomePage'
 import Login from './components/LoginForm'
 import Register from './components/RegisterForm'
 import Profile from './components/ProfileForm'
-import registerservice from './services/registerservice'
+import userService from './services/userservice'
 
 
 const App = () => {
   const [users, setUsers] = useState([])
 
   useEffect(() => {
-      registerservice.getAll().then(users => 
+      userService.getAll().then(users => 
           setUsers( users )
       )
   }, [])

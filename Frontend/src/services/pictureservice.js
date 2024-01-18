@@ -26,9 +26,15 @@ const getById = async (pictureId) => {
     return response.data
 }
 
-const like = async (userId, pictureId) => {
-    const response = await axios.post(`${baseUrl}/likePicture/${userId}/${pictureId}`)
+
+const deleteById = async (pictureId) => {
+    const config = {
+        headers: { Authorization: token }
+    }
+    const response = await axios.delete(`${baseUrl}/${pictureId}`, config)
+    console.log('made it to services')
+
     return response.data
 }
 
-export default { getAll, create, setToken, getById, like }
+export default { getAll, create, setToken, getById, deleteById }

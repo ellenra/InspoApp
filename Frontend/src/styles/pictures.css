@@ -41,3 +41,24 @@
 .like-button:hover {
     background-color: rgb(235, 190, 218);
 }
+
+.delete-button {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    bottom: 1px;
+    left: 80%;
+    background-color: white;
+    transition: background-color 0.3s;
+    border: 1px solid black;
+}
+
+.picture:hover .delete-button {
+    opacity: 1;
+}
+
+.delete-button:hover {
+    background-color: rgb(245, 222, 236);
+}
+  
