@@ -17,6 +17,8 @@
 |       |      | Improved design. |
 | 18.1. | 5.5  | Resolved issues with liking and deletion. |
 |       |      | User can delete liked picture from profile. |
+| 19.1. | 3    | Improved registration and homepage design a lot. |
+
 
 
 | yht   |      |

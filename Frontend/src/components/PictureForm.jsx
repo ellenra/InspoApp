@@ -15,12 +15,13 @@ const PictureForm = ({ handleNewPicture }) => {
     }
 
     return (
-        <div>
-          <h2>Add Picture</h2>
+        <div className="picture-form">
+          <p>Add picture:</p>
           <form onSubmit={newPicture}>
             <div>
                 url:
               <input
+                className="picture-input"
                 id='url'
                 type="text"
                 value={url}
@@ -31,6 +32,7 @@ const PictureForm = ({ handleNewPicture }) => {
             <div>
                 title:
               <input
+                className="picture-input"
                 id='title'
                 type="text"
                 value={title}
@@ -41,6 +43,7 @@ const PictureForm = ({ handleNewPicture }) => {
             <div>
                 description:
               <input
+                className="picture-input"
                 id='description'
                 type="text"
                 value={description}

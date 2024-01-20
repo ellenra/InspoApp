@@ -72,6 +72,7 @@ usersRouter.post('/:id/likes', async (request, response) => {
             user.likedPictures.push(pictureId)
             await user.save()
         }
+        response.status(200).json({ message: 'Picture liked!' })
     } catch (error) {
         response.status(500).json({ error: 'Internal server error' })
     }

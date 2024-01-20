@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { useNavigate } from "react-router-dom"
 import loginService from '../services/loginservice'
 import '../styles/index.css'
 import '../styles/login.css'
@@ -9,6 +9,7 @@ const Login = ({ onLogin }) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [user, setUser] = useState(null)
+    const navigate = useNavigate()
 
     useEffect(() => {
       const loggedUserJSON = window.localStorage.getItem('loggedUser')
@@ -38,44 +39,50 @@ const Login = ({ onLogin }) => {
         }
     }
 
+    const goToRegister = async (event) => {
+      event.preventDefault()
+      navigate(`/register`)
+    }
+
 
     if (user === null) {
       return (
           <div className="login-form">
-          <div>
-            <p>Log in to upload and save pictures!</p>
-          <form onSubmit={handleLogin}>
             <div>
-            Username:
-              <input
-                className="login_input"
-                id='username'
-                type="text"
-                name="username"
-                value={username}
-                onChange={(event) => setUsername(event.target.value)}
-              />
-            </div>
-            <div>
-            Password:
-              <input
-                className="login_input"
-                id='password'
-                type="text"
-                name="password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-              />
-            </div>
-            <button className="button" id="login-button" type="submit">Login</button>
-          <div>
-            Don't have an account?
-            <br ></br>
-            <Link to="/register">Register here</Link>
-            <br></br>
+              <p>Log in to upload and save pictures!</p>
+              <form onSubmit={handleLogin}>
+                <div>
+                  Username:
+                  <input
+                    className="login_input"
+                    id='username'
+                    type="text"
+                    name="username"
+                    value={username}
+                    onChange={(event) => setUsername(event.target.value)}
+                  />
+                </div>
+                <div>
+                  Password:
+                  <input
+                    className="login_input"
+                    id='password'
+                    type="text"
+                    name="password"
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
+                  />
+                </div>
+                <button className="login-button" id="login-button" type="submit">Login</button>
+                <div>
+                  <br />
+                  Don't have an account?
+                  <br ></br>
+                  <button className="to-register-button" onClick={goToRegister}>Register here</button>
+                  <br></br>
+                </div>
+              </form>
           </div>
-          </form>
-        </div>
         </div>
       )
     }

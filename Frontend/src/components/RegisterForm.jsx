@@ -1,34 +1,43 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import userService from '../services/userservice'
+import pictureService from '../services/pictureservice'
+import '../styles/register.css'
+import '../styles/login.css'
 
 const Register = () => {
-    const [user, setUser] = useState(null)
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [email, setEmail] = useState('')
+    const navigate = useNavigate()
 
     const handleRegister = async (event) => {
         event.preventDefault()
         console.log('registration in process')
         try {
-            await userService.register({
+            const newUser = await userService.register({
                 username, password, email
             })
             setUsername('')
             setPassword('')
             setEmail('')
+            window.localStorage.setItem('loggedUser', JSON.stringify(newUser))
+            pictureService.setToken(newUser.token)
+            navigate('/')
         } catch (exception) {
             console.log('error in registration', exception.message)
         }
     }
 
     return (
-        <div>
-            Register:
+      <div className="body">
+        <div className="register-form">
             <form onSubmit={handleRegister}>
+            <div className="register-title">Register:</div>
             <div>
-            Username:
+              Username:
               <input
+                className="login_input"
                 id='register_username'
                 type="text"
                 name="username"
@@ -38,8 +47,9 @@ const Register = () => {
               />
             </div>
             <div>
-            Password:
+              Password:
               <input
+                className="login_input"
                 id='register_password'
                 type="text"
                 name="password"
@@ -49,8 +59,9 @@ const Register = () => {
               />
             </div>
             <div>
-            Email address:
+              Email address:
               <input
+                className="login_input"
                 id='email'
                 type="text"
                 name="email"
@@ -59,8 +70,9 @@ const Register = () => {
                 placeholder="email"
               />
             </div>
-            <button id="register-button" type="submit">Register</button>
-          </form>
+            <button className="login-button" id="register-button" type="submit">Create account</button>
+            </form>
+          </div>
         </div>
     )
 }
