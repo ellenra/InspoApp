@@ -43,15 +43,16 @@
 }
 
 .delete-button {
+    margin: 5px;
+    padding: 5px;
+    border-radius: 10px;
     position: absolute;
     transform: translate(-50%, -50%);
     opacity: 0;
-    transition: opacity 0.3s;
     bottom: 1px;
     left: 80%;
     background-color: white;
-    transition: background-color 0.3s;
-    border: 1px solid black;
+    border: 1px solid rgba(5, 5, 5, 0.6);
 }
 
 .picture:hover .delete-button {
@@ -61,4 +62,5 @@
 .delete-button:hover {
     background-color: rgb(245, 222, 236);
 }
+
   

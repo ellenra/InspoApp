@@ -14,6 +14,7 @@ import '../styles/index.css'
 const Home = () => {
     const [pictures, setPictures] = useState([])
     const [user, setUser] = useState(null)
+    const [showPictureForm, setShowPictureForm] = useState(false)
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
@@ -47,8 +48,9 @@ const Home = () => {
         try {
             await userService.likePicture(userId, pictureId)
             dispatch(setNotification('Picture saved to profile!'))
-        } catch (error) {
-            console.error('Error, could not like picture:', error)
+        } catch (exception) {
+            console.log('error in liking picture')
+            dispatch(setNotification(exception.response.data.error))
         }
     }
 
@@ -57,8 +59,9 @@ const Home = () => {
             const picToAdd = await pictureService.create({ url, title, description })
             setPictures((pictures) => [...pictures, picToAdd])
             dispatch(setNotification('New picture uploaded!'))
-        } catch {
+        } catch (exception) {
             console.log('could not add pic')
+            dispatch(setNotification(exception.response.data.error))
         }
     }
 
@@ -76,12 +79,17 @@ const Home = () => {
                 </div>
             </div>
             }
+            <br />
             {user !== null && 
-            <div className="footer">
+            <div>
                 <button className="button" id="logout-button" onClick={handleLogout}>Log out</button>
                 <button className="button" id="profile-button" onClick={goToProfile}>Profile page</button>
-                <PictureForm handleNewPicture={handleNewPicture} />            </div>
+                <button className="button" onClick={() => setShowPictureForm((i) => !i)}>
+                {showPictureForm ? 'Close form' : 'Upload picture'}</button>
+                {showPictureForm && <PictureForm handleNewPicture={handleNewPicture} />  }          
+             </div>
             }
+            <br />
             <div> 
                 <Notification /> 
             </div>

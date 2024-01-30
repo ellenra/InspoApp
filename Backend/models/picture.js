@@ -1,10 +1,12 @@
 const mongoose = require('mongoose')
 
 const pictureSchema = new mongoose.Schema({
-    url: String,
+    url: {
+        type: String,
+        required: true,
+    },
     title: String,
     description: String,
-    likes: Number,
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'

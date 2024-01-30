@@ -3,13 +3,8 @@ import axios from 'axios'
 const baseUrl = 'http://localhost:3003/api/users'
 
 const register = async (credentials) => {
-  try {
-    const response = await axios.post(baseUrl, credentials)
-    return response.data
-  } catch (error) {
-    console.error('Error in register:', error.message)
-    throw error
-  }
+  const response = await axios.post(baseUrl, credentials)
+  return response.data
 }
 
 const getAll = async () => {
@@ -35,12 +30,8 @@ const getUserPictures = async (userId) => {
 }
 
 const likePicture = async (userId, pictureId) => {
-  try {
     const response = await axios.post(`${baseUrl}/${userId}/likes`, { pictureId: pictureId })
     return response.data
-  } catch (error) {
-    throw error
-  }
 }
 
 const getLikedPictures = async (userId) => {

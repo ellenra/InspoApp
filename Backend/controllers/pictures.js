@@ -25,13 +25,16 @@ picturesRouter.post('/', async (request, response) => {
         return response.status(401).json({ error: 'invalid token' })
     }
 
+    if (!body.url) {
+        return response.status(400).json({ error: 'Please provide the URL for the picture'})
+    }
+
     const user = await User.findById(decodedToken.id)
 
     const picture = new Picture({
         url: body.url,
         title: body.title,
         description: body.description,
-        likes: 0,
         user: user._id
     })
 
@@ -61,7 +64,7 @@ picturesRouter.delete('/:id', async (request, response) => {
     const pictureIdToDelete = request.params.id
     const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
     if (!decodedToken.id) {
-        return response.status(401).json({ error: 'token invalid '})
+        return response.status(401).json({ error: 'You can only delete own pictures' })
     }
     await User.updateMany(
         { likedPictures: pictureIdToDelete},

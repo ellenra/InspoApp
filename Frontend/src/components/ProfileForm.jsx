@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react"
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import { setNotification } from "../redux/notificationReducer"
 import pictureService from "../services/pictureservice"
 import userService from "../services/userservice"
+import "../styles/profile.css"
 
 
 const Profile = () => {
@@ -11,7 +12,9 @@ const Profile = () => {
     const { user } = location.state
     const [pictures, setPictures] = useState([])
     const [likedPictures, setLikedPictures] = useState([])
+    const [tab, setTab] = useState("ownPictures")
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     useEffect(() => {
         const fetchPictures = async () => {
@@ -63,26 +66,33 @@ const Profile = () => {
         }
       }
     }
+    
+    const handleChange = (tab) => {
+      setTab(tab)
+    }
+
+    const goToHomepage = async (event) => {
+      event.preventDefault()
+      navigate('/')
+    }
 
     return (
-        <div>
+        <div className="profile">
+          <button className="home-button" onClick={goToHomepage}>Home</button>
           <h2>{user.username}</h2>
-          <p>Own pictures</p>
-          <div className="layout">
-            {pictures.map((picture) => (
-                <div key={picture.id} className="picture">
-                    <img src={picture.url} alt={picture.description} />
-                    <button className="delete-button" onClick={() => handleDelete(picture.id)}>delete</button>
-                </div>
-            ))}
+          <div className="tabs">
+            <button className="profile-button" onClick={() => handleChange("ownPictures")}>Own pictures</button>
+            <button className="profile-button" onClick={() => handleChange("savedPictures")}>Saved pictures</button>
           </div>
-          <p>Liked pictures</p>
           <div className="layout">
-            {likedPictures.map((picture) => (
-                <div key={picture.id} className="picture">
-                    <img src={picture.url} alt={picture.description} />
-                    <button className="delete-button" onClick={() => handleDeleteLike(user.id, picture.id)}>delete</button>
-                </div>
+            {(tab === "ownPictures" ? pictures : likedPictures).map((picture) => (
+            <div key={picture.id} className="picture">
+              <img src={picture.url} alt={picture.description}/>
+              <button className="delete-button"
+                onClick={() => (activeTab === "ownPictures" ? handleDelete(picture.id) : handleDeleteLike(user.id, picture.id))}>
+                Delete
+              </button>
+            </div>
             ))}
           </div>
         </div>

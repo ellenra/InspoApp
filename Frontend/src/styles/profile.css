@@ -1,0 +1,38 @@
+.profile {
+    text-align: center;
+    margin: 20px;
+}
+
+.profile h2 {
+    margin-top: 40px;
+    margin-bottom: 30px;
+  }
+
+.profile-button {
+    background-color: white;
+    border: 0;
+    margin-bottom: 20px;
+    text-decoration: underline;
+    font-size: medium;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    padding: 10px;
+}
+
+.profile-button:hover {
+    color: rgb(80, 79, 79);
+}
+
+.home-button {
+    position: fixed;
+    left: 30px;
+    top: 10px;
+    margin: 5px;
+    padding: 5px;
+    border-radius: 10px;
+    border: 1px solid rgba(5, 5, 5, 0.6);
+    background-color: #f8e9f2;
+}
+
+.home-button:hover {
+    background-color: rgb(245, 222, 236);
+}

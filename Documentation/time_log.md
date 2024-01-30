@@ -18,7 +18,7 @@
 | 18.1. | 5.5  | Resolved issues with liking and deletion. |
 |       |      | User can delete liked picture from profile. |
 | 19.1. | 3    | Improved registration and homepage design a lot. |
-
-
-
+| 20.1. | 3    | Added notifications. |
+|       |      | Improved error handling and validations. |
+| 20.1. | 3    | Did tests for backend. |
 | yht   |      |

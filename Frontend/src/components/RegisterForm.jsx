@@ -1,5 +1,8 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { useDispatch } from "react-redux"
+import { setNotification } from "../redux/notificationReducer"
+import Notification from "./Notification"
 import userService from '../services/userservice'
 import pictureService from '../services/pictureservice'
 import '../styles/register.css'
@@ -10,10 +13,10 @@ const Register = () => {
     const [password, setPassword] = useState('')
     const [email, setEmail] = useState('')
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const handleRegister = async (event) => {
         event.preventDefault()
-        console.log('registration in process')
         try {
             const newUser = await userService.register({
                 username, password, email
@@ -25,12 +28,14 @@ const Register = () => {
             pictureService.setToken(newUser.token)
             navigate('/')
         } catch (exception) {
-            console.log('error in registration', exception.message)
+          console.error(exception)
+          dispatch(setNotification(exception.response.data.error))
         }
     }
 
     return (
       <div className="body">
+          <Notification /> 
         <div className="register-form">
             <form onSubmit={handleRegister}>
             <div className="register-title">Register:</div>

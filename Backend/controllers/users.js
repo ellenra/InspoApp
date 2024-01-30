@@ -10,20 +10,43 @@ usersRouter.get('/', async (request, response) => {
 })
 
 usersRouter.post('/', async (request, response) => {
-    const body = request.body
+    try {
+        const body = request.body
 
-    const saltRounds = 10
-    const passwordHash = await bcrypt.hash(body.password, saltRounds)
+        if (!body.username || !body.password || !body.email) {
+            return response.status(400).json({ error: 'Please fill in all the fields to register!' })
+        }
 
-    const user = new User({
-        name: body.name,
-        username: body.username,
-        passwordHash,
-        email: body.email
-    })
-    const savedUser = await user.save()
+        const checkUsername = await User.findOne({ username: body.username})
+        if (checkUsername) {
+            return response.status(400).json({ error: 'Username already in use' })
+        }
 
-    response.status(201).json(savedUser)
+        if (body.password.length < 6) {
+            return response.status(400).json({ error: 'Password must be at least 6 characters' })
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        if (!emailRegex.test(body.email)) {
+            return response.status(400).json({ error: 'Please use a valid email address' })
+          }
+
+        const saltRounds = 10
+        const passwordHash = await bcrypt.hash(body.password, saltRounds)
+
+        const user = new User({
+            name: body.name,
+            username: body.username,
+            passwordHash,
+            email: body.email
+        })
+        const savedUser = await user.save()
+
+        response.status(201).json(savedUser)
+    } catch (error) {
+        console.error(error)
+        response.status(400).json({ error: 'Error in registration' })
+    }
 })
 
 usersRouter.get('/:id', async (request, response) => {
@@ -67,11 +90,14 @@ usersRouter.post('/:id/likes', async (request, response) => {
         const userId = request.params.id
         const pictureId = request.body.pictureId
         const user = await User.findById(userId)
-        
-        if (!user.likedPictures.includes(pictureId)) {
-            user.likedPictures.push(pictureId)
-            await user.save()
+
+        if (user.likedPictures.includes(pictureId)) {
+            return response.status(400).json({ error: 'Picture has already been saved to profile' })
         }
+        
+        user.likedPictures.push(pictureId)
+        await user.save()
+
         response.status(200).json({ message: 'Picture liked!' })
     } catch (error) {
         response.status(500).json({ error: 'Internal server error' })

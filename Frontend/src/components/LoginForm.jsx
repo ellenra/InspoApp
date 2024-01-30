@@ -1,15 +1,18 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom"
+import { useDispatch } from 'react-redux'
+import { setNotification } from '../redux/notificationReducer'
 import loginService from '../services/loginservice'
+import pictureService from '../services/pictureservice'
 import '../styles/index.css'
 import '../styles/login.css'
-import pictureService from '../services/pictureservice'
 
 const Login = ({ onLogin }) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [user, setUser] = useState(null)
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     useEffect(() => {
       const loggedUserJSON = window.localStorage.getItem('loggedUser')
@@ -36,6 +39,7 @@ const Login = ({ onLogin }) => {
             }
         } catch (exception) {
             console.log('error in login')
+            dispatch(setNotification(exception.response.data.error))
         }
     }
 

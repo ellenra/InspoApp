@@ -16,7 +16,7 @@ const PictureForm = ({ handleNewPicture }) => {
 
     return (
         <div className="picture-form">
-          <p>Add picture:</p>
+          <h4>Add picture:</h4>
           <form onSubmit={newPicture}>
             <div>
                 url:
